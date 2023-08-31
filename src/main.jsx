@@ -1,26 +1,34 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import Root from "./routes/root";
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
 import ErrorPage from "./error-page";
+import Root, { loader as rootLoader, action as rootAction, } from "./routes/root";
+import Contact, { loader as contactLoader, } from "./routes/contact";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    Children: [
+    loader: rootLoader,
+    action: rootAction,
+    children: [
       {
-      path: "contacts/:contactId",
-      element: <Contact />,
-    },
+        path: "contacts/:contactId",
+        element: <Contact />,
+        loader: contactLoader,
+      },
     ],
   },
-  
+  {
+    path: "contacts/:contactId",
+    element: <Contact />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
